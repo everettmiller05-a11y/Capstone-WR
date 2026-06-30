@@ -1,0 +1,1256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Everett Miller · WMG</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #0c0a08;
+    --surface: #151210;
+    --surface2: #1e1a16;
+    --border: rgba(245,237,224,0.08);
+    --border-bright: rgba(245,237,224,0.14);
+    --text: #f5ede0;
+    --muted: rgba(245,237,224,0.48);
+    --accent: #d4aa5a;
+    --accent2: #c9785a;
+    --accent3: #7da898;
+    --glow: rgba(212,170,90,0.12);
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Inter', sans-serif;
+    font-size: 16px;
+    line-height: 1.7;
+    overflow-x: hidden;
+  }
+
+  /* NAV */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1.25rem 3rem;
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    background: rgba(12,10,8,0.75);
+    border-bottom: 0.5px solid var(--border);
+  }
+  .nav-logo {
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 700;
+    font-size: 1.1rem;
+    letter-spacing: -0.02em;
+    color: var(--text);
+    text-decoration: none;
+  }
+  .nav-logo span { color: var(--accent); }
+  .nav-links { display: flex; gap: 2rem; list-style: none; }
+  .nav-links a {
+    text-decoration: none;
+    color: var(--muted);
+    font-size: 0.875rem;
+    font-weight: 500;
+    letter-spacing: 0.02em;
+    transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--text); }
+
+  /* HERO */
+  .hero {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 8rem 2rem 4rem;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero-bg {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  /* VINYL */
+  .vinyl-wrap {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: 700px;
+    height: 700px;
+    pointer-events: none;
+    opacity: 0.55;
+  }
+  .vinyl-wrap svg { width: 100%; height: 100%; }
+
+  /* HEADSHOT */
+  .hero-headshot {
+    position: relative;
+    z-index: 2;
+    width: 88px;
+    height: 88px;
+    border-radius: 50%;
+    overflow: hidden;
+    border: 1.5px solid rgba(212,170,90,0.35);
+    margin-bottom: 1.6rem;
+    animation: fadeUp 0.7s ease both;
+    flex-shrink: 0;
+  }
+  .hero-headshot img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center top;
+    filter: grayscale(15%);
+  }
+
+  /* PHOTO BLOCKS */
+  .photo-block {
+    width: 100%;
+    border-radius: 16px;
+    overflow: hidden;
+    margin-top: 3rem;
+    border: 0.5px solid var(--border);
+    position: relative;
+  }
+  .photo-block img {
+    width: 100%;
+    height: 420px;
+    object-fit: cover;
+    object-position: center center;
+    display: block;
+    transition: transform 0.6s ease;
+  }
+  .photo-block:hover img { transform: scale(1.02); }
+  .photo-caption {
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    padding: 1.2rem 1.5rem;
+    background: linear-gradient(to top, rgba(12,10,8,0.85), transparent);
+    font-size: 0.8rem;
+    color: rgba(245,237,224,0.7);
+    letter-spacing: 0.04em;
+  }
+  .photo-caption strong { color: var(--accent); font-weight: 500; }
+
+  /* PHOTO PAIR */
+  .photo-pair {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    margin-top: 3rem;
+  }
+  .photo-pair .photo-block { margin-top: 0; }
+  .photo-pair .photo-block img { height: 280px; }
+
+  @media (max-width: 640px) {
+    .photo-pair { grid-template-columns: 1fr; }
+  }
+
+  /* subtle grain texture */
+  .hero-grain {
+    position: absolute;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+    opacity: 0.4;
+  }
+
+  .hero-orb {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(90px);
+    pointer-events: none;
+  }
+  .orb1 { width: 600px; height: 600px; background: rgba(212,170,90,0.07); top: -180px; left: -160px; }
+  .orb2 { width: 400px; height: 400px; background: rgba(201,120,90,0.06); bottom: -60px; right: -100px; }
+
+  /* EYEBROW */
+  .hero-eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--accent);
+    background: rgba(212,170,90,0.08);
+    border: 0.5px solid rgba(212,170,90,0.22);
+    padding: 0.4rem 1rem;
+    border-radius: 100px;
+    margin-bottom: 2.5rem;
+    animation: fadeUp 0.7s ease both;
+    position: relative;
+    z-index: 2;
+  }
+  .eyebrow-dot {
+    width: 5px; height: 5px;
+    border-radius: 50%;
+    background: var(--accent);
+    animation: pulse 2.5s ease infinite;
+  }
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.3; }
+  }
+
+  /* REVEAL NAME */
+  .hero-name-wrap {
+    position: relative;
+    z-index: 2;
+    margin-bottom: 0.5rem;
+  }
+  .name-row {
+    display: flex;
+    justify-content: center;
+    line-height: 1;
+  }
+  .name-row + .name-row { margin-top: 0.04em; }
+
+  .rl {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: clamp(4rem, 12vw, 9rem);
+    font-weight: 700;
+    letter-spacing: -0.04em;
+    display: inline-block;
+    user-select: none;
+    cursor: default;
+    /* image clip setup, background-image set per-letter via JS */
+    background-size: 220% auto;
+    background-position: 60% center;
+    -webkit-background-clip: text;
+    background-clip: text;
+    /* default: show solid color */
+    color: var(--text);
+    -webkit-text-fill-color: var(--text);
+    transition: -webkit-text-fill-color 0.18s ease,
+                background-position 2.5s ease;
+    /* start hidden for spring-in */
+    opacity: 0;
+  }
+  .rl.space-letter {
+    width: 0.25em;
+    pointer-events: none;
+    background-image: none !important;
+  }
+  /* hover: reveal album art through text */
+  .rl:hover {
+    -webkit-text-fill-color: transparent;
+    background-position: 20% center;
+  }
+  /* spring-in per letter */
+  @keyframes springIn {
+    0%   { opacity: 0; transform: scale(0.5) translateY(16px); }
+    60%  { opacity: 1; transform: scale(1.06) translateY(-3px); }
+    80%  { transform: scale(0.97) translateY(1px); }
+    100% { opacity: 1; transform: scale(1) translateY(0); }
+  }
+  .rl.pop {
+    animation: springIn 0.55s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+  }
+
+  /* HERO SUBTITLE */
+  .hero-title {
+    font-size: 1rem;
+    color: var(--muted);
+    font-weight: 400;
+    margin-bottom: 2.5rem;
+    animation: fadeUp 0.7s 0.25s ease both;
+    position: relative;
+    z-index: 2;
+  }
+  .hero-title strong { color: rgba(245,237,224,0.78); font-weight: 500; }
+
+  /* TAGS */
+  .hero-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.55rem;
+    justify-content: center;
+    margin-bottom: 3.5rem;
+    animation: fadeUp 0.7s 0.35s ease both;
+    position: relative;
+    z-index: 2;
+  }
+  .tag {
+    font-size: 0.78rem;
+    font-weight: 500;
+    padding: 0.32rem 0.85rem;
+    border-radius: 100px;
+    border: 0.5px solid var(--border-bright);
+    color: var(--muted);
+    background: rgba(21,18,16,0.7);
+    transition: all 0.2s;
+    cursor: default;
+  }
+  .tag:hover { border-color: var(--accent); color: var(--accent); background: rgba(212,170,90,0.07); }
+  .tag.warm { border-color: rgba(201,120,90,0.3); color: var(--accent2); }
+  .tag.warm:hover { border-color: var(--accent2); background: rgba(201,120,90,0.08); }
+  .tag.sage { border-color: rgba(125,168,152,0.3); color: var(--accent3); }
+  .tag.sage:hover { border-color: var(--accent3); background: rgba(125,168,152,0.08); }
+
+  /* SCROLL INDICATOR */
+  .hover-hint {
+    font-size: 0.65rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+    opacity: 0;
+    animation: fadeUp 0.6s 1.4s ease both;
+    margin-top: 0.6rem;
+    position: relative;
+    z-index: 2;
+  }
+  .hover-hint::before {
+    content: '↑ ';
+    opacity: 0.5;
+  }
+  .hero-scroll {
+    animation: fadeUp 0.7s 0.45s ease both;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--muted);
+    font-size: 0.7rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    position: relative;
+    z-index: 2;
+  }
+  .scroll-line {
+    width: 1px; height: 44px;
+    background: linear-gradient(to bottom, var(--accent), transparent);
+    animation: scrollLine 2.2s ease infinite;
+  }
+  @keyframes scrollLine {
+    0%   { transform: scaleY(0); transform-origin: top; }
+    50%  { transform: scaleY(1); transform-origin: top; }
+    51%  { transform: scaleY(1); transform-origin: bottom; }
+    100% { transform: scaleY(0); transform-origin: bottom; opacity: 0; }
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  /* SECTIONS */
+  .section {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 5rem 2rem;
+  }
+  .section-label {
+    font-size: 0.68rem;
+    font-weight: 600;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+  .section-label::after {
+    content: '';
+    width: 36px;
+    height: 0.5px;
+    background: var(--accent);
+    opacity: 0.4;
+  }
+  h2.section-heading {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: clamp(1.9rem, 4vw, 2.9rem);
+    font-weight: 700;
+    letter-spacing: -0.03em;
+    line-height: 1.1;
+    margin-bottom: 2rem;
+    color: var(--text);
+  }
+  .section-body { color: var(--muted); font-size: 1.05rem; line-height: 1.82; }
+  .section-body p + p { margin-top: 1.2rem; }
+  .section-body .highlight { color: rgba(245,237,224,0.88); font-weight: 500; }
+
+  .divider {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 0 2rem;
+    height: 0.5px;
+    background: var(--border);
+  }
+
+  /* CARDS */
+  .cards-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(256px, 1fr));
+    gap: 1rem;
+    margin-top: 2.5rem;
+  }
+  .card {
+    background: var(--surface);
+    border-radius: 16px;
+    padding: 1.5rem;
+    position: relative;
+    overflow: hidden;
+    box-shadow: inset 0 0 0 0.5px var(--border);
+  }
+  /* spotlight border */
+  .card::before {
+    content: '';
+    position: absolute;
+    inset: -1px;
+    border-radius: 17px;
+    padding: 1px;
+    background: radial-gradient(
+      400px 400px at var(--mx, -9999px) var(--my, -9999px),
+      hsl(42 100% 72% / 1),
+      hsl(38 100% 52% / 0.6) 35%,
+      transparent 65%
+    );
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    mask-composite: exclude;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.4s;
+  }
+  /* inner surface glow */
+  .card::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: 16px;
+    background: radial-gradient(
+      400px 400px at var(--mx, -9999px) var(--my, -9999px),
+      hsl(42 90% 55% / 0.13),
+      transparent 65%
+    );
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.4s;
+  }
+  .cards-grid:hover .card::before,
+  .cards-grid:hover .card::after { opacity: 1; }
+  .card-icon {
+    width: 38px; height: 38px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 1rem;
+  }
+  .card-icon.gold  { background: rgba(212,170,90,0.12); }
+  .card-icon.warm  { background: rgba(201,120,90,0.1); }
+  .card-icon.sage  { background: rgba(125,168,152,0.1); }
+  .card-icon svg { width: 18px; height: 18px; }
+  .card h3 { font-family: 'Space Grotesk', sans-serif; font-size: 1rem; font-weight: 600; margin-bottom: 0.45rem; color: var(--text); }
+  .card p  { font-size: 0.875rem; color: var(--muted); line-height: 1.6; }
+
+  /* TIMELINE */
+  /* SCROLL PROGRESS TIMELINE */
+  .prog-timeline {
+    position: relative;
+    margin-top: 3.5rem;
+    padding-left: 2.5rem;
+  }
+  /* track line (dim) */
+  .prog-timeline-track {
+    position: absolute;
+    left: 7px; top: 10px; bottom: 10px;
+    width: 1.5px;
+    background: rgba(212,170,90,0.12);
+    border-radius: 2px;
+  }
+  /* fill line (gold, grows via JS) */
+  .prog-timeline-fill {
+    position: absolute;
+    left: 0; top: 0;
+    width: 100%;
+    height: 0%;
+    background: linear-gradient(to bottom, var(--accent), var(--accent2));
+    border-radius: 2px;
+    transition: height 0.1s linear;
+  }
+  .prog-item {
+    position: relative;
+    margin-bottom: 4rem;
+    transition: opacity 0.4s ease;
+  }
+  .prog-item:last-child { margin-bottom: 0; }
+  /* dot */
+  .prog-dot {
+    position: absolute;
+    left: -2.5rem;
+    top: 6px;
+    width: 14px; height: 14px;
+    border-radius: 50%;
+    border: 2px solid rgba(212,170,90,0.25);
+    background: var(--bg);
+    transition: border-color 0.3s, box-shadow 0.3s, background 0.3s;
+  }
+  .prog-item.active .prog-dot {
+    border-color: var(--accent);
+    background: var(--accent);
+    box-shadow: 0 0 14px rgba(212,170,90,0.5);
+  }
+  .prog-item.passed .prog-dot {
+    border-color: var(--accent2);
+    background: var(--accent2);
+    box-shadow: none;
+  }
+  .prog-item h3 {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin-bottom: 0.55rem;
+    color: var(--text);
+    transition: color 0.3s;
+  }
+  .prog-item p { color: var(--muted); font-size: 0.97rem; line-height: 1.78; }
+  .prog-item.active h3 { color: var(--accent); }
+  .prog-item:not(.active):not(.passed) { opacity: 0.45; }
+  .prog-item.passed { opacity: 0.65; }
+  .prog-item.active { opacity: 1; }
+
+  /* SKILLS */
+  .skills-section {
+    background: var(--surface);
+    border-top: 0.5px solid var(--border);
+    border-bottom: 0.5px solid var(--border);
+    padding: 5rem 0;
+  }
+  .skills-inner { max-width: 900px; margin: 0 auto; padding: 0 2rem; }
+  .skills-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 0.7rem;
+    margin-top: 2.5rem;
+  }
+  .skill-pill {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.85rem 1.1rem;
+    background: var(--surface2);
+    border: 0.5px solid var(--border);
+    border-radius: 12px;
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--text);
+    transition: all 0.2s;
+    cursor: default;
+  }
+  .skill-pill:hover { border-color: rgba(212,170,90,0.3); color: var(--accent); }
+  .skill-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+  .skill-dot.gold { background: var(--accent); box-shadow: 0 0 6px var(--accent); }
+  .skill-dot.warm { background: var(--accent2); box-shadow: 0 0 6px var(--accent2); }
+  .skill-dot.sage { background: var(--accent3); box-shadow: 0 0 6px var(--accent3); }
+
+  /* CLOSING */
+  .closing { max-width: 900px; margin: 0 auto; padding: 6rem 2rem; text-align: center; }
+  .closing-quote {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: clamp(1.45rem, 3.2vw, 2.1rem);
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    line-height: 1.4;
+    color: var(--text);
+    max-width: 680px;
+    margin: 0 auto 2rem;
+  }
+  .closing-quote em { font-style: normal; color: var(--accent); }
+  .closing-sub { color: var(--muted); font-size: 0.9rem; }
+
+  footer {
+    border-top: 0.5px solid var(--border);
+    padding: 2rem 3rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 0.78rem;
+    color: var(--muted);
+  }
+
+  .reveal {
+    opacity: 0;
+    transform: translateY(28px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+  }
+  .reveal.visible { opacity: 1; transform: none; }
+
+  @media (max-width: 640px) {
+    nav { padding: 1rem 1.5rem; }
+    .nav-links { display: none; }
+    .section { padding: 3.5rem 1.25rem; }
+    .vinyl-wrap { width: 420px; height: 420px; }
+    footer { flex-direction: column; gap: 0.5rem; text-align: center; }
+  }
+  /* ORBITAL TIMELINE */
+  @keyframes orbPing {
+    0%   { transform: translate(-50%,-50%) scale(1); opacity: 0.6; }
+    100% { transform: translate(-50%,-50%) scale(2.4); opacity: 0; }
+  }
+  @keyframes orbPulse {
+    0%, 100% { box-shadow: 0 0 32px rgba(212,170,90,0.35); }
+    50%       { box-shadow: 0 0 52px rgba(212,170,90,0.6); }
+  }
+  .orb-ping {
+    position: absolute; top: 50%; left: 50%;
+    border-radius: 50%;
+    border: 1px solid rgba(212,170,90,0.4);
+    animation: orbPing 2s cubic-bezier(0,0,0.2,1) infinite;
+  }
+  .orb-ping-1 { width: 56px; height: 56px; animation-delay: 0s; }
+  .orb-ping-2 { width: 56px; height: 56px; animation-delay: 0.7s; }
+  #orb-center { animation: orbPulse 3s ease infinite; }
+
+  .onode {
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    transition: opacity 0.3s ease;
+    cursor: pointer;
+    z-index: 5;
+  }
+  .onode-dot {
+    width: 52px; height: 52px;
+    border-radius: 50%;
+    border: 2px solid rgba(212,170,90,0.4);
+    background: rgba(12,10,8,0.9);
+    display: flex; align-items: center; justify-content: center;
+    transition: all 0.3s ease;
+    font-size: 0.85rem;
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 700;
+    color: rgba(212,170,90,0.7);
+  }
+  .onode:hover .onode-dot,
+  .onode.active .onode-dot {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: #0c0a08;
+    box-shadow: 0 0 20px rgba(212,170,90,0.4);
+    transform: scale(1.35);
+  }
+  .onode-label {
+    position: absolute;
+    top: 60px; left: 50%;
+    transform: translateX(-50%);
+    white-space: nowrap;
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: rgba(245,237,224,0.5);
+    transition: color 0.3s;
+    pointer-events: none;
+  }
+  .onode.active .onode-label { color: var(--accent); }
+
+  .onode-card {
+    position: absolute;
+    top: 72px; left: 50%;
+    transform: translateX(-50%);
+    width: 380px;
+    background: rgba(18,13,8,0.96);
+    border: 0.5px solid rgba(212,170,90,0.25);
+    border-radius: 14px;
+    padding: 1.5rem 1.6rem;
+    box-shadow: 0 8px 40px rgba(0,0,0,0.6), 0 0 20px rgba(212,170,90,0.08);
+    backdrop-filter: blur(16px);
+    z-index: 50;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.25s ease;
+  }
+  .onode-card.visible { opacity: 1; pointer-events: auto; }
+  .onode-card::before {
+    content: '';
+    position: absolute;
+    top: -8px; left: 50%;
+    transform: translateX(-50%);
+    width: 1px; height: 8px;
+    background: rgba(212,170,90,0.4);
+  }
+  .onode-card-tag {
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 0.6rem;
+  }
+  .onode-card-title {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: var(--text);
+    margin-bottom: 0.75rem;
+    line-height: 1.3;
+  }
+  .onode-card-body {
+    font-size: 0.97rem;
+    color: rgba(245,237,224,0.72);
+    line-height: 1.7;
+  }
+
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="#" class="nav-logo">EM<span>.</span></a>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#wmg">My Time at Warner</a></li>
+    <li><a href="#learned">What I Learned</a></li>
+    <li><a href="#forward">Looking Forward</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg">
+    <div class="hero-orb orb1"></div>
+    <div class="hero-orb orb2"></div>
+    <div class="vinyl-wrap">
+      <svg viewBox="0 0 560 560" xmlns="http://www.w3.org/2000/svg">
+        <g id="vinyl-record">
+          <circle cx="280" cy="280" r="270" fill="rgba(12,8,4,0.5)" stroke="rgba(212,170,90,0.7)" stroke-width="1.5" stroke-dasharray="10 6" pathLength="900"/>
+          <circle cx="280" cy="280" r="263" fill="none" stroke="rgba(212,170,90,0.25)" stroke-width="0.8"/>
+
+          <circle cx="280" cy="280" r="248" fill="none" stroke="rgba(220,195,140,0.35)" stroke-width="1.2" stroke-dasharray="14 8"/>
+          <circle cx="280" cy="280" r="218" fill="none" stroke="rgba(220,195,140,0.28)" stroke-width="1.1" stroke-dasharray="12 9"/>
+          <circle cx="280" cy="280" r="188" fill="none" stroke="rgba(220,195,140,0.32)" stroke-width="1.2" stroke-dasharray="14 7"/>
+          <circle cx="280" cy="280" r="158" fill="none" stroke="rgba(220,195,140,0.26)" stroke-width="1.0" stroke-dasharray="11 9"/>
+          <circle cx="280" cy="280" r="128" fill="none" stroke="rgba(220,195,140,0.3)"  stroke-width="1.1" stroke-dasharray="13 8"/>
+
+          <circle cx="280" cy="280" r="96"  fill="rgba(18,13,8,0.92)" stroke="rgba(212,170,90,0.45)" stroke-width="1.1"/>
+          <circle cx="280" cy="280" r="92"  fill="none" stroke="rgba(212,170,90,0.18)" stroke-width="0.6" stroke-dasharray="3 2"/>
+
+          <line x1="250" y1="268" x2="310" y2="268" stroke="rgba(220,195,140,0.45)" stroke-width="1.4" stroke-linecap="round"/>
+          <line x1="258" y1="280" x2="302" y2="280" stroke="rgba(220,195,140,0.3)"  stroke-width="1"   stroke-linecap="round"/>
+          <line x1="264" y1="292" x2="296" y2="292" stroke="rgba(220,195,140,0.22)" stroke-width="0.8" stroke-linecap="round"/>
+
+          <circle cx="280" cy="280" r="7.5" fill="rgba(8,6,4,1)" stroke="rgba(212,170,90,0.55)" stroke-width="1"/>
+
+          <line x1="280" y1="10"  x2="280" y2="550" stroke="rgba(212,170,90,0.05)" stroke-width="0.5"/>
+          <line x1="10"  y1="280" x2="550" y2="280" stroke="rgba(212,170,90,0.05)" stroke-width="0.5"/>
+          <line x1="84"  y1="84"  x2="476" y2="476" stroke="rgba(212,170,90,0.04)" stroke-width="0.5"/>
+          <line x1="476" y1="84"  x2="84"  y2="476" stroke="rgba(212,170,90,0.04)" stroke-width="0.5"/>
+        </g>
+      </svg>
+    </div>
+  </div>
+
+  <div class="hero-headshot">
+    <img src="headshot.jpg" alt="Everett Miller">
+  </div>
+
+  <div class="hero-eyebrow">
+    <span class="eyebrow-dot"></span>
+    Warner Records · A&R
+  </div>
+
+  <!-- REVEAL NAME -->
+  <div class="hero-name-wrap" aria-label="Everett Miller">
+    <div class="name-row" id="row-first"></div>
+    <div class="name-row" id="row-last"></div>
+    <p class="hover-hint">hover the letters</p>
+    <div id="album-tooltip" style="
+      margin-top: 0.75rem;
+      font-size: 0.75rem;
+      font-weight: 500;
+      letter-spacing: 0.06em;
+      color: var(--accent);
+      opacity: 0;
+      transition: opacity 0.15s;
+      min-height: 1.2em;
+      pointer-events: none;
+    "></div>
+  </div>
+
+  <p class="hero-title" style="margin-top:1.4rem;">
+    Emerging Talent Associate
+  </p>
+
+  <div class="hero-tags">
+    <span class="tag">A&R Research</span>
+    <span class="tag sage">Artist Discovery</span>
+    <span class="tag warm">Data Science & AI</span>
+    <span class="tag sage">Problem Solving</span>
+    <span class="tag">Technology & Business</span>
+  </div>
+
+  <div class="hero-scroll">
+    <div class="scroll-line"></div>
+    <span>scroll</span>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section class="section" id="about">
+  <div class="reveal">
+    <p class="section-label">01 · Background</p>
+    <h2 class="section-heading">Finding My Place<br>in the Music Industry</h2>
+    <div class="section-body">
+      <p>When I started at Warner Records, I didn't have the traditional music industry background. My experience was in <span class="highlight">AI, data, startups, and business</span>, but music had always been something I genuinely loved.</p>
+      <p>This internship showed me that there isn't one path into the industry. Instead of trying to fit a mold, I learned how to bring my own skills into A&R and contribute in a meaningful way.</p>
+    </div>
+    <div class="cards-grid">
+      <div class="card">
+        <div class="card-icon gold">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#d4aa5a" stroke-width="1.5">
+            <path d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"/>
+          </svg>
+        </div>
+        <h3>A different kind of curiosity</h3>
+        <p>Coming from AI, data, and UX meant I asked different questions. Sometimes that was exactly what the conversation needed.</p>
+      </div>
+      <div class="card">
+        <div class="card-icon sage">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#7da898" stroke-width="1.5">
+            <path d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/>
+          </svg>
+        </div>
+        <h3>Data Science, applied to music</h3>
+        <p>My DS & AI background trained me to spot patterns and ask why something is working, not just whether it is.</p>
+      </div>
+      <div class="card">
+        <div class="card-icon warm">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#c9785a" stroke-width="1.5">
+            <path d="M13 10V3L4 14h7v7l9-11h-7z"/>
+          </svg>
+        </div>
+        <h3>Music was always genuine</h3>
+        <p>It wasn't something I added to my resume for this role. Music has been a constant part of my life, and that came through in the work.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- WMG -->
+<section class="section" id="wmg">
+  <div class="reveal">
+    <p class="section-label">02 · Experience</p>
+    <h2 class="section-heading">My time at<br>Warner Records</h2>
+    <div class="section-body">
+      <p>As an A&R Research Intern, I focused on how A&R teams find artists, <span class="highlight">decide who's worth betting on</span>, and what that decision actually looks like up close. I also found a way to bring my technical background directly into the work.</p>
+    </div>
+    <div class="photo-block">
+      <img src="wmg-office.jpg" alt="Warner Records office">
+      <div class="photo-caption"><strong>Warner Records</strong> · Los Angeles</div>
+    </div>
+
+    <div class="prog-timeline" id="wmg-timeline">
+      <div class="prog-timeline-track">
+        <div class="prog-timeline-fill" id="wmg-fill"></div>
+      </div>
+
+      <div class="prog-item" data-prog>
+        <div class="prog-dot"></div>
+        <h3>Artist Research</h3>
+        <p>Spent time finding and researching emerging artists by looking at streaming data, social media, release history, and overall momentum. The biggest thing I learned was that it's less about one viral moment and more about spotting artists who are consistently building something over time.</p>
+      </div>
+
+      <div class="prog-item" data-prog>
+        <div class="prog-dot"></div>
+        <h3>AI Collaboration &amp; Innovation</h3>
+        <p>I participated in weekly AI meetings where people from across the company shared how they were using AI in their day-to-day work. Hearing different perspectives gave me new ideas for improving my own workflows and reinforced how AI can be used to make creative and operational work more efficient.</p>
+      </div>
+
+      <div class="prog-item" data-prog>
+        <div class="prog-dot"></div>
+        <h3>AI Workflow Project</h3>
+        <p>Built an AI tool that takes long-form content like interviews and documentaries, finds the most interesting moments, and automatically turns them into social-ready clips for the marketing team. It was a cool opportunity to combine my technical background with what I was learning in the music industry.</p>
+      </div>
+
+      <div class="prog-item" data-prog>
+        <div class="prog-dot"></div>
+        <h3>Sitting In on A&R Conversations</h3>
+        <p>Getting to observe real A&R discussions was one of the most valuable parts of the internship. I saw firsthand how teams talk about artists, what they listen for, what questions they ask, and how much of the conversation is built on instinct backed by context.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- LEARNED -->
+<section class="section" id="learned">
+  <div class="reveal">
+    <p class="section-label">03 · Insights</p>
+    <h2 class="section-heading">Turning My Background<br>Into My Strength</h2>
+    <div class="section-body">
+      <p>One of the biggest things I learned during my internship is that A&R isn't just about knowing music. It's about being curious, asking good questions, and finding creative ways to understand where an artist is headed.</p>
+      <p>The hardest part was early on, not knowing the industry's language or how decisions actually get made made it difficult to contribute at first. But sitting with that discomfort taught me more than any shortcut would have.</p>
+      <p>Coming from technology and data meant I had to earn credibility in a room that runs on taste. Once I stopped trying to translate my background into music-industry terms and just let it inform how I thought, things clicked.</p>
+    </div>
+    <div class="cards-grid" style="margin-top:2.5rem;">
+      <div class="card">
+        <div class="card-icon sage">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#7da898" stroke-width="1.5">
+            <circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/>
+          </svg>
+        </div>
+        <h3>Curiosity Over Credentials</h3>
+        <p>No one cared that I didn't have years of music industry experience. What mattered was showing up prepared, having thoughtful opinions, and being willing to learn from every conversation.</p>
+      </div>
+      <div class="card">
+        <div class="card-icon gold">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#d4aa5a" stroke-width="1.5">
+            <path d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z"/>
+          </svg>
+        </div>
+        <h3>Using My Technical Background</h3>
+        <p>My background in technology didn't disappear when I started working in A&R, it became one of my biggest strengths. It helped me think differently about artist development, data, and how AI can make creative work more efficient.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- FORWARD / ORBITAL TIMELINE -->
+<section id="forward" style="padding: 0; min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; position: relative; overflow: hidden; background: var(--bg);">
+  <div class="reveal" style="width:100%; text-align:center; padding: 5rem 2rem 1rem; position: relative; z-index: 2;">
+    <p class="section-label" style="justify-content:center;">04 · Vision</p>
+    <h2 class="section-heading">The Impact of<br>This Experience</h2>
+    <p style="color: var(--muted); font-size: 1rem; margin-top: 0.75rem;">Warner didn't just teach me how A&R works. It showed me where I fit. <span style="color:var(--muted); font-size:0.8rem;">(click a node)</span></p>
+  </div>
+
+  <div id="orbital-container" style="
+    position: relative;
+    width: 100%;
+    max-width: 900px;
+    height: 680px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: default;
+    z-index: 2;
+  ">
+    <!-- center orb -->
+    <div id="orb-center" style="
+      position: absolute;
+      width: 56px; height: 56px;
+      border-radius: 50%;
+      background: radial-gradient(circle at 35% 35%, #d4aa5a, #c9785a 60%, #7da898);
+      display: flex; align-items: center; justify-content: center;
+      z-index: 10;
+      box-shadow: 0 0 32px rgba(212,170,90,0.35);
+    ">
+      <div style="width:22px;height:22px;border-radius:50%;background:rgba(12,10,8,0.9);"></div>
+      <div class="orb-ping orb-ping-1"></div>
+      <div class="orb-ping orb-ping-2"></div>
+    </div>
+
+    <!-- orbit ring -->
+    <div style="
+      position: absolute;
+      width: 560px; height: 560px;
+      border-radius: 50%;
+      border: 1px solid rgba(212,170,90,0.15);
+      pointer-events: none;
+    "></div>
+
+    <!-- nodes injected by JS -->
+  </div>
+</section>
+
+<!-- CLOSING -->
+<section class="closing">
+  <div class="reveal">
+    <p class="section-label" style="justify-content:center;">05 · Closing Thought</p>
+    <p class="closing-quote">
+      This experience gave me confidence that I can build a career in music by leaning into my technical background.
+    </p>
+    <p class="closing-sub">Everett Miller · A&R Research Intern · Warner Records</p>
+  </div>
+</section>
+
+<footer>
+  <span>Everett Miller</span>
+  <span>Warner Records · 2026</span>
+</footer>
+
+<script>
+  // ── SPOTLIGHT CARDS ──────────────────────────────────────────────────────
+  document.addEventListener('pointermove', e => {
+    document.querySelectorAll('.card').forEach(card => {
+      const r = card.getBoundingClientRect();
+      card.style.setProperty('--mx', (e.clientX - r.left) + 'px');
+      card.style.setProperty('--my', (e.clientY - r.top) + 'px');
+    });
+  });
+
+  // ── REVEAL NAME ──────────────────────────────────────────────────────────
+  const albums = [
+    { url: 'album-art/rumours.jpg',           label: 'Rumours by Fleetwood Mac' },
+    { url: 'album-art/graduation.jpg',        label: 'Graduation by Kanye West' },
+    { url: 'album-art/in-between-dreams.jpg', label: 'In Between Dreams by Jack Johnson' },
+    { url: 'album-art/born-to-run.jpg',       label: 'Born to Run by Springsteen' },
+    { url: 'album-art/random-access.jpg',     label: 'Random Access Memories by Daft Punk' },
+    { url: 'album-art/dark-side.jpg',         label: 'Dark Side of the Moon by Pink Floyd' },
+    { url: 'album-art/currents.jpg',          label: 'Currents by Tame Impala' },
+    { url: 'album-art/solace.jpg',            label: 'Solace by Rufus Du Sol' },
+    { url: 'album-art/bloom.jpg',             label: 'Bloom by Rufus Du Sol' },
+    { url: 'album-art/settle.jpg',            label: 'Settle by Disclosure' },
+    { url: 'album-art/brushfire.jpg',         label: 'Brushfire Fairytales by Jack Johnson' },
+    { url: 'album-art/born-in-usa.jpg',       label: 'Born in the U.S.A. by Springsteen' },
+    { url: 'album-art/purple-rain.jpg',       label: 'Purple Rain by Prince' },
+  ];
+
+  const tooltip = document.getElementById('album-tooltip');
+
+  function buildName(text, containerId, startIndex) {
+    const container = document.getElementById(containerId);
+    let idx = startIndex;
+    text.split('').forEach(char => {
+      const span = document.createElement('span');
+      span.className = 'rl';
+      if (char === ' ') {
+        span.classList.add('space-letter');
+        span.textContent = ' ';
+      } else {
+        const album = albums[idx % albums.length];
+        span.textContent = char;
+        span.style.backgroundImage = `url('${album.url}')`;
+        span.addEventListener('mouseenter', () => {
+          tooltip.textContent = album.label;
+          tooltip.style.opacity = '1';
+        });
+        span.addEventListener('mouseleave', () => {
+          tooltip.style.opacity = '0';
+        });
+        idx++;
+      }
+      container.appendChild(span);
+    });
+    return idx;
+  }
+
+  const lastStart = buildName('EVERETT', 'row-first', 0);
+  buildName('MILLER', 'row-last', lastStart);
+
+  // Staggered spring-in
+  const allLetters = document.querySelectorAll('.rl:not(.space-letter)');
+  allLetters.forEach((el, i) => {
+    setTimeout(() => el.classList.add('pop'), 80 + i * 60);
+  });
+
+  // ── VINYL SCROLL SPIN ────────────────────────────────────────────────────
+  const vinylRecord = document.querySelector('#vinyl-record');
+  window.addEventListener('scroll', () => {
+    const angle = window.scrollY * 0.2;
+    vinylRecord.setAttribute('transform', `rotate(${angle} 280 280)`);
+  }, { passive: true });
+
+  // ── SCROLL REVEAL ────────────────────────────────────────────────────────
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target); }
+    });
+  }, { threshold: 0.1 });
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+  // ── SCROLL PROGRESS TIMELINE ──────────────────────────────────────
+  (function() {
+    const timeline = document.getElementById('wmg-timeline');
+    const fill = document.getElementById('wmg-fill');
+    if (!timeline || !fill) return;
+
+    const items = Array.from(timeline.querySelectorAll('[data-prog]'));
+
+    function update() {
+      const trackTop = timeline.getBoundingClientRect().top + window.scrollY;
+      const trackH = timeline.offsetHeight;
+      const scrolled = window.scrollY + window.innerHeight * 0.6;
+      const progress = Math.max(0, Math.min(1, (scrolled - trackTop) / trackH));
+      fill.style.height = (progress * 100) + '%';
+
+      items.forEach((item, i) => {
+        const itemTop = item.getBoundingClientRect().top + window.scrollY;
+        const trigger = window.scrollY + window.innerHeight * 0.65;
+        if (trigger > itemTop + item.offsetHeight) {
+          item.classList.remove('active');
+          item.classList.add('passed');
+        } else if (trigger > itemTop) {
+          item.classList.add('active');
+          item.classList.remove('passed');
+        } else {
+          item.classList.remove('active', 'passed');
+        }
+      });
+    }
+
+    window.addEventListener('scroll', update, { passive: true });
+    update();
+  })();
+
+  // ── ORBITAL TIMELINE ──────────────────────────────────────────────
+  (function() {
+    const NODES = [
+      {
+        id: 1,
+        label: 'Fit',
+        tag: 'Finding Where I Fit In',
+        title: 'Finding Where I Fit In',
+        body: 'This internship helped me figure out where my skills fit within the music industry. It gave me confidence that I can combine my interests in technology, AI, and music into one career.',
+      },
+      {
+        id: 2,
+        label: 'A&R',
+        tag: 'Taste + Data',
+        title: 'A&R Is the Combination of Taste and Data',
+        body: 'I learned that great A&R starts with instinct and taste, while data helps validate those instincts. The best decisions come from balancing creative judgment with objective information.',
+      },
+      {
+        id: 3,
+        label: 'AI',
+        tag: 'Workflows',
+        title: 'Using AI to Improve Workflows',
+        body: 'I found ways to use AI to automate repetitive tasks and spend more time on creative work. It showed me how AI can be a tool that supports better decision-making rather than replacing it.',
+      },
+      {
+        id: 4,
+        label: 'Tech',
+        tag: 'Perspective',
+        title: 'Using My Tech Background in A&R',
+        body: 'Coming from a technical background gave me a different perspective on evaluating artists and solving problems. It helped me approach A&R with both analytical thinking and creative curiosity.',
+      },
+    ];
+
+    const container = document.getElementById('orbital-container');
+    if (!container) return;
+
+    const RADIUS = 280;
+    let angle = 0;
+    let autoRotate = true;
+    let activeId = null;
+    let raf = null;
+    const nodeEls = {};
+
+    // Build node elements
+    NODES.forEach((node, i) => {
+      const wrap = document.createElement('div');
+      wrap.className = 'onode';
+      wrap.dataset.id = node.id;
+
+      wrap.innerHTML = `
+        <div class="onode-dot">${String(node.id).padStart(2,'0')}</div>
+        <div class="onode-label">${node.label}</div>
+        <div class="onode-card" id="ocard-${node.id}">
+          <div class="onode-card-tag">${node.tag}</div>
+          <div class="onode-card-title">${node.title}</div>
+          <div class="onode-card-body">${node.body}</div>
+        </div>
+      `;
+
+      wrap.addEventListener('click', e => {
+        e.stopPropagation();
+        if (activeId === node.id) {
+          closeAll();
+        } else {
+          openNode(node.id, i);
+        }
+      });
+
+      container.appendChild(wrap);
+      nodeEls[node.id] = wrap;
+    });
+
+    container.addEventListener('click', e => {
+      if (e.target === container) closeAll();
+    });
+
+    function positionNodes() {
+      NODES.forEach((node, i) => {
+        const theta = ((i / NODES.length) * 2 * Math.PI) + (angle * Math.PI / 180);
+        const x = RADIUS * Math.cos(theta);
+        const y = RADIUS * Math.sin(theta);
+        const opacity = activeId ? (activeId === node.id ? 1 : 0.4) : 0.85;
+        const zIndex = activeId === node.id ? 200 : 10;
+
+        const el = nodeEls[node.id];
+        el.style.transform = `translate(calc(-50% + ${x}px), calc(-50% + ${y}px))`;
+        el.style.opacity = opacity;
+        el.style.zIndex = zIndex;
+      });
+    }
+
+    function openNode(id, idx) {
+      closeAll(false);
+      activeId = id;
+      autoRotate = false;
+      cancelAnimationFrame(raf);
+
+      // Snap node to top (270deg)
+      const targetAngle = -(idx / NODES.length) * 360 + 270;
+      angle = targetAngle % 360;
+      positionNodes();
+
+      const el = nodeEls[id];
+      el.classList.add('active');
+      const card = document.getElementById(`ocard-${id}`);
+      card.classList.add('visible');
+
+
+    }
+
+    function closeAll(resume = true) {
+      activeId = null;
+      Object.values(nodeEls).forEach(el => {
+        el.classList.remove('active');
+        const card = el.querySelector('.onode-card');
+        card.classList.remove('visible');
+      });
+      if (resume) {
+        autoRotate = true;
+        startTick();
+      }
+    }
+
+    function tick() {
+      if (!autoRotate) return;
+      angle = (angle + 0.08) % 360;
+      positionNodes();
+      raf = requestAnimationFrame(tick);
+    }
+
+    function startTick() {
+      cancelAnimationFrame(raf);
+      raf = requestAnimationFrame(tick);
+    }
+
+    positionNodes();
+    startTick();
+  })();
+</script>
+</body>
+</html>
