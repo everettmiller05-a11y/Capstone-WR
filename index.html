@@ -1210,17 +1210,28 @@
       autoRotate = false;
       cancelAnimationFrame(raf);
 
-      // Snap node to top (270deg)
-      const targetAngle = -(idx / NODES.length) * 360 + 270;
-      angle = targetAngle % 360;
+      // Find node's current position in orbit
+      const theta = ((idx / NODES.length) * 2 * Math.PI) + (angle * Math.PI / 180);
+      const x = RADIUS * Math.cos(theta);
+      const y = RADIUS * Math.sin(theta);
+
       positionNodes();
 
       const el = nodeEls[id];
       el.classList.add('active');
+
+      // Position card above or below node depending on which half of orbit it's in
       const card = document.getElementById(`ocard-${id}`);
+      if (y > 0) {
+        // bottom half — show card above node
+        card.style.top = 'auto';
+        card.style.bottom = '72px';
+      } else {
+        // top half — show card below node
+        card.style.top = '72px';
+        card.style.bottom = 'auto';
+      }
       card.classList.add('visible');
-
-
     }
 
     function closeAll(resume = true) {
